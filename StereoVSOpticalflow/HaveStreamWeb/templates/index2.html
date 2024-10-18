@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Camera Stream and Info</title>
+    <style>
+        /* General Styling */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f5;
+            color: #333;
+            text-align: center;
+            margin: 0;
+            padding: 20px;
+        }
+
+        /* Header Styling */
+        h1, h2 {
+            color: #4CAF50;
+            margin-bottom: 20px;
+        }
+
+        /* Video Stream Styling */
+        #video {
+            border: 5px solid #333;
+            border-radius: 10px;
+            width: 80%;
+            max-width: 640px;
+            height: auto;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+
+        /* Info Container */
+        #info {
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            padding: 20px;
+            margin-top: 30px;
+            display: inline-block;
+            text-align: left;
+            width: 80%;
+            max-width: 640px;
+        }
+
+        /* Info Items Styling */
+        #info p {
+            font-size: 18px;
+            line-height: 1.6;
+            margin: 10px 0;
+        }
+
+        #info span {
+            font-weight: bold;
+            color: #4CAF50;
+        }
+
+        /* Reset button styles */
+        button {
+            background-color: #3b82f6;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: background-color 0.3s ease;
+        }
+
+        /* Reset button hover effect */
+        button:hover {
+            background-color: #2563eb;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            #video {
+                width: 100%;
+            }
+
+            #info {
+                width: 100%;
+            }
+
+            h1, h2 {
+                font-size: 24px;
+            }
+
+            #info p {
+                font-size: 16px;
+            }
+            
+            button {
+                width: 100%;
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>Camera Stream</h1>
+    <img id="video" src="/video-stream" alt="Video Stream">
+
+    <h2>Stream Info</h2>
+    <div id="info">
+        <p>Camera height = <span id="camera_height">0</span> cm</p>
+        <p>[dx,dy] = [<span id="dx_cm">0</span>,<span id="dy_cm">0</span>] cm/s</p>
+        <p>[X,Y] = [<span id="global_x">0</span>,<span id="global_y">0</span>] cm </p>
+        <p>FPS: <span id="fps">0</span></p>
+        <p>Camera FPS: <span id="fps_cam">0</span></p>
+        <p>Stereo FPS: <span id="fps_stereo">0</span></p>
+        <p>Optical Flow FPS: <span id="fps_OpFlo">0</span></p>
+    </div>
+
+    <button id="resetButton">Reset</button> <!-- Reset button -->
+
+    <script>
+        function updateInfo() {
+            fetch('/info')
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('camera_height').innerText = data.camera_height;
+                    document.getElementById('dx_cm').innerText = data.dx_cm;
+                    document.getElementById('dy_cm').innerText = data.dy_cm;
+                    document.getElementById('global_x').innerText = data.global_x;
+                    document.getElementById('global_y').innerText = data.global_y;
+                    document.getElementById('fps').innerText = data.FPS;
+                    document.getElementById('fps_cam').innerText = data.FPS_cam;
+                    document.getElementById('fps_stereo').innerText = data.FPS_stereo;
+                    document.getElementById('fps_OpFlo').innerText = data.FPS_OpticalFlow;
+                })
+                .catch(error => console.log('Error fetching info:', error));
+        }
+        // Update info every second
+        setInterval(updateInfo, 5);
+
+        // Handle the reset button click
+        document.getElementById('resetButton').addEventListener('click', function() {
+            fetch('/reset', { method: 'POST' })
+                .then(response => response.json())
+                .then(data => {
+                    alert(data.message); // Show an alert when parameters are reset
+                })
+                .catch(error => console.log('Error resetting parameters:', error));
+        });
+    </script>
+</body>
+</html>

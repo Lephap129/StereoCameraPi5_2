@@ -1,0 +1,91 @@
+/* General Styling */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f5;
+    color: #333;
+    text-align: center;
+    margin: 0;
+    padding: 20px;
+}
+
+/* Header Styling */
+h1, h2 {
+    color: #4CAF50;
+    margin-bottom: 20px;
+}
+
+/* Video Stream Styling */
+#video {
+    border: 5px solid #333;
+    border-radius: 10px;
+    width: 80%;
+    max-width: 640px;
+    height: auto;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+/* Info Container */
+#info {
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    padding: 20px;
+    margin-top: 30px;
+    display: inline-block;
+    text-align: left;
+    width: 80%;
+    max-width: 640px;
+}
+
+/* Info Items Styling */
+#info p {
+    font-size: 18px;
+    line-height: 1.6;
+    margin: 10px 0;
+}
+
+#info span {
+    font-weight: bold;
+    color: #4CAF50;
+}
+
+/* Reset button styles */
+button {
+    background-color: #3b82f6;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 20px;
+    transition: background-color 0.3s ease;
+}
+
+/* Reset button hover effect */
+button:hover {
+    background-color: #2563eb;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    #video {
+        width: 100%;
+    }
+
+    #info {
+        width: 100%;
+    }
+
+    h1, h2 {
+        font-size: 24px;
+    }
+
+    #info p {
+        font-size: 16px;
+    }
+    
+    button {
+        width: 100%;
+        padding: 15px;
+    }

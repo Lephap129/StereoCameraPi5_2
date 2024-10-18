@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Camera Stream and Info</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; }
+        #video { width: 640px; height: auto; }
+        #info { margin-top: 20px; }
+    </style>
+</head>
+<body>
+    <h1>Camera Stream</h1>
+    <img id="video" src="/video-stream" alt="Video Stream">
+
+    <h2>Stream Info</h2>
+    <div id="info">
+        <p>FPS: <span id="fps">0</span></p>
+        <p>Camera FPS: <span id="fps_cam">0</span></p>
+        <p>Stereo FPS: <span id="fps_stereo">0</span></p>
+        <p>Param Control: <span id="param_control"></span></p>
+    </div>
+
+    <script>
+        function updateInfo() {
+            fetch('/info')
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('fps').innerText = data.FPS;
+                    document.getElementById('fps_cam').innerText = data.FPS_cam;
+                    document.getElementById('fps_stereo').innerText = data.FPS_stereo;
+                    document.getElementById('param_control').innerText = data.Param_control;
+                })
+                .catch(error => console.log('Error fetching info:', error));
+        }
+
+        // Update info every second
+        setInterval(updateInfo, 1000);
+    </script>
+</body>
+</html>
